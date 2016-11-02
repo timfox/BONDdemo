@@ -1,0 +1,496 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>demo</title>
+
+<style>
+	html, body {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		margin: 0;
+		padding: 0;
+		overflow: hidden;
+	}
+	
+	#container {
+		width: 100%;
+		height: 100%;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none; 
+		overflow: hidden;
+	}
+	
+	#instructions {
+		opacity: 0;
+		z-index: 12000;
+		padding: 1em;
+		padding-left: 2em;
+		padding-right: 2em;
+		background: rgba(0,0,0,0.8);
+		border-radius: 0.75em;
+		position: absolute;
+    	top: 50%;
+    	left: 50%;
+    	margin-right: -50%;
+    	transform: translate(-50%, -50%);
+	}
+	
+	#instructions p {
+		margin: 0;
+		background: none;
+		color: #fff;
+		font-size: 32px;
+		text-shadow: -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000, 1px 1px 0px #000;
+	}
+	
+	#bg {
+		width: 100%;
+		height: 100%;
+		background: url('bg.jpg');
+		background-position: top center;
+		background-size: cover;
+		z-index: -10000;
+		padding-left: -4em;
+		padding-right: -4em;
+		padding-top: -4em;
+		padding-bottom: -4em;
+	}
+	
+	.visible {
+		opacity: 1!important;
+	}
+	
+	.invisible {
+		opacity: 0!important;
+	}
+	
+	.displayvisible {
+		display: block!importantimportant;
+	}
+	
+	#spell {
+		opacity: 1;
+		position: absolute;
+    	top: 10%;
+    	left: 54%;
+    	margin-right: -50%;
+    	transform: translate(-50%, -50%);
+		width: 50%;
+		text-align: center;
+		z-index: 10000;
+	}
+	
+	.spell {
+		position: absolute;	
+		z-index: 10002;
+	}
+	
+	.spellglow {
+		position: absolute;
+		z-index: 10010;
+	}
+	
+	.spell img, .spellglow img {
+		width: 100%;
+		height: 100%;
+	}
+	
+	#thirdcast {
+		display: none;
+		position: absolute;
+		z-index: 10011;
+	}
+	
+	#fourthcast {
+		display: none;
+		position: absolute;
+		z-index: 1009;
+	}
+		
+	#threed {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		width: 100%;
+		z-index: 1000;
+	}
+	
+	#doctor {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		width: 100%;
+		z-index: 11000;
+	}
+	
+	#doctor img {
+		width: 100%;
+	}
+	
+	#logo {
+		width: 30%;
+		position: absolute;
+		left: 4em;
+		bottom: 4em;
+		z-index: 15001;
+	}
+	
+	#logo img {
+		width: 100%;
+	}
+	
+	.growSpell {	
+		-webkit-animation: growSpell 6s 1 linear;
+		-moz-animation: growSpell 6s 1 linear;
+		-o-animation: growSpell 6s 1 linear;
+	}	
+		
+	.fadeIn {	
+		-webkit-animation: fadeInDelay 8s 1 linear;
+		-moz-animation: fadeInDelay 8s 1 linear;
+		-o-animation: fadeInDelay 8s 1 linear;
+	}	
+		
+	.fadeOut {
+		-webkit-animation: fadeOut 4s 1 linear;
+		-moz-animation: fadeOut 4s 1 linear;
+		-o-animation: fadeOut 4s 1 linear;
+	}	
+	
+	.fadeOutQuick {	
+		-webkit-animation: fadeOut 1.5s 1 linear;
+		-moz-animation: fadeOut 1.5s 1 linear;
+		-o-animation: fadeOut 1.5s 1 linear;
+	}	
+	
+	.fadeOutFromBlack {
+		-webkit-animation: fadeOut 4s 1 ease-in;
+		-moz-animation: fadeOut 4s 1 ease-in;
+		-o-animation: fadeOut 4s 1 ease-in;
+	}
+	
+	.fadeToWhite {
+		-webkit-animation: fadeIn 8s 1 linear;
+		-moz-animation: fadeIn 8s 1 linear;
+		-o-animation: fadeIn 8s 1 linear;
+	}
+	
+	.fadeToWhiteFast {
+		-webkit-animation: fadeIn 5s 1 linear;
+		-moz-animation: fadeIn 5s 1 linear;
+		-o-animation: fadeIn 5s 1 linear;
+	}
+	
+	.rotRight {
+		-webkit-animation: spellRotateRight 7s infinite linear;
+		-moz-animation: spellRotateRight 7s infinite linear;
+		-o-animation: spellRotateRight 7s infinite linear;
+	}
+	
+	.rotLeft {
+		-webkit-animation: spellRotateLeft 7s infinite linear;
+		-moz-animation: spellRotateLeft 7s infinite linear;
+		-o-animation: spellRotateLeft 7s infinite linear;
+	}
+	
+	.rotRightFast {
+		-webkit-animation: spellRotateRight 3s infinite linear;
+		-moz-animation: spellRotateRight 3s infinite linear;
+		-o-animation: spellRotateRight 3s infinite linear;
+	}
+	
+	.glow {
+		
+		-webkit-animation: spellGlow 3s infinite ease-in-out;
+		-moz-animation: spellGlow 3s infinite ease-in-out;
+		-o-animation: spellGlow 3s infinite ease-in-out;
+	}
+	
+	.black {
+		opacity: 0;
+		background: #000;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		position: absolute;
+		z-index: 14998;
+	}
+	
+	.white {
+		opacity: 1;
+		background: #fff;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		position: absolute;
+		z-index: 14998;
+	}
+	
+	.whitebg {
+		opacity: 1;
+		background: #fff;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		position: absolute;
+		z-index: 10500;
+	}
+	
+	/* Animation Definitions */	
+	/* Rotate Right */
+	@-webkit-keyframes spellRotateRight {
+		from { -webkit-transform: rotate(0deg); }
+		to { -webkit-transform: rotate(360deg); }
+	}
+	@-moz-keyframes spellRotateRight {
+		from { -moz-transform: rotate(0deg); }
+		to { -moz-transform: rotate(360deg); }
+	}
+	@-o-keyframes spellRotateRight {
+		from { -o-transform: rotate(0deg); }
+		to { -o-transform: rotate(360deg); }
+	}
+	
+	/* Rotate Left */
+	@-webkit-keyframes spellRotateLeft {
+		from { -webkit-transform: translate(50% 50%) rotate(0deg); }
+		to { -webkit-transform: translate(50% 50%) rotate(-360deg); }
+	}
+	@-moz-keyframes spellRotateLeft {
+		from { -moz-transform: translate(50% 50%) rotate(0deg); }
+		to { -moz-transform: translate(50% 50%) rotate(-360deg); }
+	}
+	@-o-keyframes spellRotateLeft {
+		from { -o-transform: translate(50% 50%) rotate(0deg); }
+		to { -o-transform: translate(50% 50%) rotate(-360deg); }
+	}
+	
+	/* Double card spin */
+	@-webkit-keyframes spellSpinLeft {
+		from { -webkit-transform: translate(50% 50%) rotate(180deg) scale(0.100); }
+		to { -webkit-transform: translate(50% 50%) rotate(0deg) scale(0.25); }
+	}
+	@-moz-keyframes spellSpinLeft {
+		from { -moz-transform: translate(50% 50%) rotate(180deg) scale(0.100); }
+		to { -moz-transform: translate(50% 50%) rotate(0deg) scale(0.25); }
+	}
+	@-o-keyframes spellSpinLeft {
+		from { -o-transform: translate(50% 50%) rotate(180deg) scale(0.100); }
+		to { -o-transform: translate(50% 50%) rotate(0deg) scale(0.25); }
+	}
+	
+	/* glow. I could also use "alternate" here */
+	@-webkit-keyframes spellGlow {
+		0% { opacity: 0; }
+		50% { opacity: 1; }
+		100% { opacity: 0; }
+	}
+	@-moz-keyframes spellGlow {
+		0% { opacity: 0; }
+		50% { opacity: 1; }
+		100% { opacity: 0; }
+	}
+	@-o-keyframes spellGlow {
+		0% { opacity: 0; }
+		50% { opacity: 1; }
+		100% { opacity: 0; }
+	}
+	
+	/* Fade From Black */
+	@-webkit-keyframes fadeOut {
+		from { opacity: 1; }
+		to { opacity: 0; }
+	}
+	@-moz-keyframes fadeOut {
+		from { opacity: 1; }
+		to { opacity: 0; }
+	}
+	@-o-keyframes fadeOut {
+		from { opacity: 1; }
+		to { opacity: 0; }
+	}
+	
+	
+	@-webkit-keyframes fadeInDelay {
+		0% { opacity: 0; }
+		55% { opacity: 0; }
+		100% { opacity: 1; }
+	}
+	@-moz-keyframes fadeInDelay {
+		0% { opacity: 0; }
+		55% { opacity: 0; }
+		100% { opacity: 1; }
+	}
+	@-o-keyframes fadeInDelay {
+		0% { opacity: 0; }
+		55% { opacity: 0; }
+		100% { opacity: 1; }
+	}
+
+	/* Fade From Black */
+	@-webkit-keyframes fadeIn {
+		from { opacity: 0; }
+		to { opacity: 1; }
+	}
+	@-moz-keyframes fadeIn {
+		from { opacity: 0; }
+		to { opacity: 1; }
+	}
+	@-o-keyframes fadeIn {
+		from { opacity: 0; }
+		to { opacity: 1; }
+	}
+	
+	@-webkit-keyframes growSpell {
+		from { opacity: 0!important; }
+		to { opacity: 1!important; }
+	}
+	@-moz-keyframes growSpell {		
+		from { opacity: 0!important; }
+		to { opacity: 1!important; }
+	}
+	@-o-keyframes growSpell {
+		from { opacity: 0!important; }
+		to { opacity: 1!important; }
+	}
+	
+</style>
+
+</head>
+
+
+<body>
+
+<div id="container">
+	<div id="black" class="black fadeOutFromBlack"></div>
+	<div id="white" class="white invisible"></div>
+	<div id="whitebg" class="whitebg invisible"></div>
+	<div id="instructions" class="visible"><p>Scroll your mouse wheel to activate Doctor Strange's Spell</p></div>
+	<div id="bg"></div>
+	
+	<div id="spell" class="invisible">
+		<div id="firstcast" class="spell rotRight" style="position: absolute!important;"><img src="spell.png" alt="Spell" /></div>
+		<div id="secondcast" class="spellglow glow rotRight" style="position: absolute!important;"><img src="spellglow.png" alt="Spell" /></div>
+		<div id="thirdcast" class="spellglow rotLeft" style="position: absolute!important;"><img src="spellglow.png" alt="Spell" /></div>
+		<div id="fourthcast" class="spell rotLeft" style="position: absolute!important;"><img src="spell.png" alt="Spell" /></div>
+	</div>
+	
+	<div id="doctor"><img src="doctor.png" alt="The Doctor" /></div>
+	
+	<div id="logo" class="fadeIn"><img src="logo.png" alt="Doctor Strange" /></div>
+</div>
+
+<script>
+	
+	var magicMeter = 0;
+	
+	var magicContainer = document.getElementById("container");
+	
+	var doctor = document.getElementById("doctor");
+
+	if (magicContainer.addEventListener) {
+		magicContainer.addEventListener("mousewheel", castMagic, false);
+		// Firefox
+		magicContainer.addEventListener("DOMMouseScroll", castMagic, false);
+	}
+	else magicContainer.attachEvent("onmousewheel", castMagic);
+	
+
+	function castMagic(e) {
+		
+		var e = window.Event;
+
+		magicMeter += 1;
+		console.log(magicMeter);
+		
+		switch(magicMeter) {
+			case 1:
+				document.getElementById("spell").className = "growSpell";
+			case 8:
+				document.getElementById("instructions").className = "fadeOutQuick";
+				console.log("First wave");
+				break;
+			case 22:
+				document.getElementById("firstcast").className = "spell rotRight";
+				console.log("Second wave");
+				break;
+			case 42:
+				document.getElementById("secondcast").className = "spellglow rotRight";
+				console.log("Third wave");
+				break;
+			case 60:
+				document.getElementById("thirdcast").style = "display:block;";
+				document.getElementById("thirdcast").className = "spellglow rotRightFast";
+				console.log("Fourth wave");
+				break;
+			case 88:
+				document.getElementById("firstcast").className = "spell rotRightFast";
+				console.log("Fifth wave");
+				break;
+			case 105:
+				document.getElementById("fourthcast").className = "spell rotRight displayvisible";
+				document.getElementById("thirdcast").style = "display:none;";
+				console.log("Sixth wave");
+				break;
+				
+			case 105:
+				document.getElementById("fourthcast").className = "spell rotRight displayvisible";
+				document.getElementById("firstcast").style = "display:none;";
+				console.log("Seventh wave");
+				break;
+				
+			case 130:
+				document.getElementById("thirdcast").style = "display:block;";
+				document.getElementById("firstcast").className = "spell rotRightFast";				
+				document.getElementById("thirdcast").className = "spellglow rotRightFast";
+				console.log("Eigth wave");
+				break;
+				
+			case 155:
+				
+				document.getElementById("firstcast").style = "display:block;";
+				document.getElementById("secondcast").style = "display:block;";
+				document.getElementById("thirdcast").style = "display:block;";
+				document.getElementById("fourthcast").style = "display:block;";
+				document.getElementById("firstcast").className = "spell rotRightFast";				
+				document.getElementById("secondcast").className = "spellglow rotRightFast";				
+				document.getElementById("thirdcast").className = "spell rotRight";
+				document.getElementById("fourthcast").className = "spellglow rotRightFast";				
+				console.log("Ninth wave");
+				break;
+				
+			case 180:
+				document.getElementById("white").className = "white fadeToWhite";
+				document.getElementById("whitebg").className = "whitebg fadeToWhiteFast";
+				console.log("Final wave");
+				break;
+		}
+
+	}
+	
+	
+
+
+	function adjustPos(pos){
+		
+		doctor.offsetWidth = pos.pageX;
+		
+		
+	  console.log('X: ' + pos.pageX);
+	}
+
+	addEventListener('mousemove', adjustPos, false);
+	
+</script>
+
+</body>
+</html>
