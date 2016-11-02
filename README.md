@@ -1,2 +1,3 @@
 # BONDdemo
-HTML5 Three.js interactive content
+
+This is an HTML5 JavaScript Demo I made to get a job at BOND.
